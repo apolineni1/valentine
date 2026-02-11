@@ -21,7 +21,7 @@
     body{
       margin: 0;
       min-height: 100vh;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       background: radial-gradient(circle at top, #ffe3ec 0%, var(--bg) 45%, #ffffff 100%);
       color: var(--text);
       display: grid;
@@ -44,7 +44,6 @@
     h1{
       margin: 14px 0 10px;
       font-size: clamp(28px, 4vw, 44px);
-      letter-spacing: -0.02em;
     }
 
     p{
@@ -55,23 +54,16 @@
 
     .gif{
       width: min(360px, 80vw);
-      height: auto;
       border-radius: 18px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      border: 1px solid rgba(0,0,0,0.05);
       user-select: none;
-      -webkit-user-drag: none;
     }
 
-    /* Buttons area */
     .btnRow{
       margin-top: 18px;
       display: flex;
       gap: 14px;
       justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      padding-bottom: 8px;
     }
 
     button{
@@ -83,8 +75,6 @@
       cursor: pointer;
       transition: transform 120ms ease, background 120ms ease;
       box-shadow: 0 10px 20px rgba(0,0,0,0.10);
-      user-select: none;
-      touch-action: manipulation;
     }
 
     #yesBtn{
@@ -92,25 +82,23 @@
       color: white;
       min-width: 140px;
     }
-    #yesBtn:hover{ background: var(--yesHover); transform: translateY(-1px) scale(1.02); }
-    #yesBtn:active{ transform: translateY(1px) scale(0.99); }
 
-    /* The "No" button starts in the row, but we will switch it to absolute positioning after first dodge */
-    #noBtn{
-      background: var(--no);
-      color: #3a3a3a;
-      min-width: 140px;
-      position: relative; /* initial */
+    #yesBtn:hover{
+      background: var(--yesHover);
+      transform: scale(1.05);
     }
 
-    /* Floating No button state */
+    #noBtn{
+      background: var(--no);
+      min-width: 140px;
+      position: relative;
+    }
+
     #noBtn.floating{
       position: fixed;
       z-index: 50;
-      box-shadow: 0 16px 30px rgba(0,0,0,0.16);
     }
 
-    /* Success overlay */
     .success{
       display: none;
       margin-top: 16px;
@@ -118,7 +106,7 @@
       font-weight: 700;
     }
 
-    .hearts {
+    .hearts{
       pointer-events: none;
       position: fixed;
       inset: 0;
@@ -127,17 +115,15 @@
       display: none;
     }
 
-    .heart {
+    .heart{
       position: absolute;
       font-size: 22px;
       animation: floatUp linear forwards;
-      opacity: 0.9;
-      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.08));
     }
 
-    @keyframes floatUp {
-      from { transform: translateY(0) scale(1); opacity: 0.95; }
-      to   { transform: translateY(-110vh) scale(1.35); opacity: 0; }
+    @keyframes floatUp{
+      from{ transform: translateY(0); opacity: 1; }
+      to{ transform: translateY(-110vh); opacity: 0; }
     }
 
     .smallNote{
@@ -153,27 +139,32 @@
     <img
       id="mainGif"
       class="gif"
-      alt="cute puppy eyes"
       src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"
+      alt="cute puppy eyes"
     />
 
     <h1 id="question">Will you be my Valentine? Akki Poooopieee 💖</h1>
     <p id="subtitle">Don't say no pweaseee 🥺</p>
-   <div class="btnRow" id="btnRow">
+
+    <div class="btnRow">
       <button id="yesBtn">Yes</button>
-      <button id="noBtn" aria-label="No button">No</button>
+      <button id="noBtn">No</button>
     </div>
 
-    <div class="success" id="successMsg">YAY!!! Banana Aashi is HAPPYYYYY teehee /div>
-    <div class="smallNote" id="note">P.S. the “No” button is shy.</div>
+    <div class="success" id="successMsg">
+      YAY!!! Banana Aashi is HAPPYYYYY teehee
+    </div>
+
+    <div class="smallNote" id="note">
+      P.S. the “No” button is shy.
+    </div>
   </div>
 
   <div class="hearts" id="hearts"></div>
 
   <script>
-    // ✅ Replace these GIFs if you want different ones
-    const beggingGif = "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"; // puppy eyes vibe
-    const celebGif   = "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BpNGdqM3lydmg3a2FrdWpvMzRsdXQ1eWZvbHB0NGNndDRvejV6ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yUThmGwfT1hrORu84T/giphy.gif"; // celebration
+    const beggingGif = "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif";
+    const celebGif = "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BpNGdqM3lydmg3a2FrdWpvMzRsdXQ1eWZvbHB0NGNndDRvejV6ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yUThmGwfT1hrORu84T/giphy.gif";
 
     const mainGif = document.getElementById("mainGif");
     const yesBtn = document.getElementById("yesBtn");
@@ -181,120 +172,44 @@
     const question = document.getElementById("question");
     const subtitle = document.getElementById("subtitle");
     const successMsg = document.getElementById("successMsg");
-    const heartsLayer = document.getElementById("hearts");
     const note = document.getElementById("note");
-
-    mainGif.src = beggingGif;
-
-    // Helpers
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+    const heartsLayer = document.getElementById("hearts");
 
     function randomInt(min, max){
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function moveNoButton(awayFromX = null, awayFromY = null) {
-      // Make it "floating" if it isn't already
-      if (!noBtn.classList.contains("floating")) {
-        noBtn.classList.add("floating");
-      }
+    function moveNoButton(x=null, y=null){
+      noBtn.classList.add("floating");
+      const padding = 20;
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-      const padding = 16;
-      const rect = noBtn.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      let nx = randomInt(padding, maxX);
+      let ny = randomInt(padding, maxY);
 
-      const maxX = vw - rect.width - padding;
-      const maxY = vh - rect.height - padding;
-
-      // Pick a random position
-      let x = randomInt(padding, Math.max(padding, maxX));
-      let y = randomInt(padding, Math.max(padding, maxY));
-
-      // If we have a cursor/touch point, try to move away from it
-      if (awayFromX !== null && awayFromY !== null) {
-        const minDist = 140; // how far it tries to keep away
-        let tries = 0;
-
-        while (tries < 12) {
-          const dx = x - awayFromX;
-          const dy = y - awayFromY;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-
-          if (dist >= minDist) break;
-
-          x = randomInt(padding, Math.max(padding, maxX));
-          y = randomInt(padding, Math.max(padding, maxY));
-          tries++;
-        }
-      }
-
-      // Smooth-ish movement
-      noBtn.style.transition = "left 180ms ease, top 180ms ease, transform 180ms ease";
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-      noBtn.style.transform = `rotate(${randomInt(-10, 10)}deg)`;
+      noBtn.style.left = nx + "px";
+      noBtn.style.top = ny + "px";
     }
 
-    // Desktop: dodge on hover
-    noBtn.addEventListener("mouseenter", (e) => {
-      moveNoButton(e.clientX, e.clientY);
-    });
+    noBtn.addEventListener("mouseenter", e => moveNoButton(e.clientX, e.clientY));
+    noBtn.addEventListener("click", e => { e.preventDefault(); moveNoButton(); });
 
-    // Desktop: also dodge if cursor gets near (extra dramatic)
-    document.addEventListener("mousemove", (e) => {
-      if (!noBtn.classList.contains("floating")) return;
-
-      const rect = noBtn.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-
-      const dx = cx - e.clientX;
-      const dy = cy - e.clientY;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-
-      if (dist < 120) moveNoButton(e.clientX, e.clientY);
-    });
-
-    // Mobile: dodge on touch start (before click)
-    noBtn.addEventListener("touchstart", (e) => {
-      const t = e.touches[0];
-      moveNoButton(t.clientX, t.clientY);
-      e.preventDefault(); // prevent "click"
-    }, { passive: false });
-
-    // Just in case it gets clicked somehow — reject it
-    noBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
-
-    // YES flow
-    function spawnHearts() {
+    function spawnHearts(){
       heartsLayer.style.display = "block";
       const emojis = ["💖","💘","💕","💗","💓","💞","❤️"];
-
       const interval = setInterval(() => {
         const heart = document.createElement("div");
         heart.className = "heart";
         heart.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-
-        const x = Math.random() * 100;
-        const duration = 2.5 + Math.random() * 2.5;
-        const size = 18 + Math.random() * 18;
-
-        heart.style.left = x + "vw";
+        heart.style.left = Math.random()*100 + "vw";
         heart.style.bottom = "-10vh";
-        heart.style.fontSize = size + "px";
-        heart.style.animationDuration = duration + "s";
-
+        heart.style.animationDuration = (2 + Math.random()*2) + "s";
         heartsLayer.appendChild(heart);
-        setTimeout(() => heart.remove(), duration * 1000);
+        setTimeout(() => heart.remove(), 4000);
       }, 120);
 
-      // Stop after a bit
       setTimeout(() => clearInterval(interval), 2500);
-      setTimeout(() => heartsLayer.style.display = "none", 4200);
     }
 
     yesBtn.addEventListener("click", () => {
@@ -304,16 +219,9 @@
       successMsg.style.display = "block";
       note.textContent = "Be prepared on Saturday Night for the Ultimate Date Night hehe 😌";
 
-      // Hide / disable buttons after yes
       yesBtn.disabled = true;
       noBtn.style.display = "none";
-
       spawnHearts();
-    });
-
-    // Keep No button within bounds on resize
-    window.addEventListener("resize", () => {
-      if (noBtn.classList.contains("floating")) moveNoButton();
     });
   </script>
 </body>
