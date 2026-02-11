@@ -38,7 +38,6 @@
       padding: 28px 18px 22px;
       text-align: center;
       backdrop-filter: blur(8px);
-      position: relative;
     }
 
     h1{
@@ -106,6 +105,12 @@
       font-weight: 700;
     }
 
+    .smallNote{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(0,0,0,0.45);
+    }
+
     .hearts{
       pointer-events: none;
       position: fixed;
@@ -124,12 +129,6 @@
     @keyframes floatUp{
       from{ transform: translateY(0); opacity: 1; }
       to{ transform: translateY(-110vh); opacity: 0; }
-    }
-
-    .smallNote{
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(0,0,0,0.45);
     }
   </style>
 </head>
@@ -151,7 +150,9 @@
       <button id="noBtn">No</button>
     </div>
 
-    <div class="success" id="successMsg"> I LOVE YOU SOSOOS MUCH MY LOVEEEE </div>
+    <div class="success" id="successMsg">
+      I LOVE YOU SOSOOS MUCH MY LOVEEEE
+    </div>
 
     <div class="smallNote" id="note">
       P.S. the “No” button is shy.
@@ -180,22 +181,32 @@
     function moveNoButton(x=null, y=null){
       noBtn.classList.add("floating");
       const padding = 20;
-      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-      let nx = randomInt(padding, maxX);
-      let ny = randomInt(padding, maxY);
+      const maxX = Math.max(padding, window.innerWidth - noBtn.offsetWidth - padding);
+      const maxY = Math.max(padding, window.innerHeight - noBtn.offsetHeight - padding);
 
-      noBtn.style.left = nx + "px";
-      noBtn.style.top = ny + "px";
+      noBtn.style.left = randomInt(padding, maxX) + "px";
+      noBtn.style.top = randomInt(padding, maxY) + "px";
     }
 
+    // Desktop
     noBtn.addEventListener("mouseenter", e => moveNoButton(e.clientX, e.clientY));
-    noBtn.addEventListener("click", e => { e.preventDefault(); moveNoButton(); });
+    noBtn.addEventListener("click", e => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // Mobile
+    noBtn.addEventListener("touchstart", e => {
+      const t = e.touches[0];
+      moveNoButton(t.clientX, t.clientY);
+      e.preventDefault();
+    }, { passive: false });
 
     function spawnHearts(){
       heartsLayer.style.display = "block";
       const emojis = ["💖","💘","💕","💗","💓","💞","❤️"];
+
       const interval = setInterval(() => {
         const heart = document.createElement("div");
         heart.className = "heart";
